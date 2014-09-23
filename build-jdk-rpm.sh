@@ -7,14 +7,14 @@ jdk_path=$1
 [[ -f $jdk_path ]] || err_out "${jdk_path} does not exist"
 jdk_name=$(basename $jdk_path)
 
-regex='^jdk-([7-8])u([0-9]+)-linux-x([0-9]+).gz$'
+regex='^jdk-([7-8])u([0-9]+)-linux-[x|i]([0-9]+).gz$'
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 script_dir=$mydir/scripts
 pkg_dir=$mydir/pkg
 
 if [[ ! $jdk_name =~ $regex ]]; then
- err_out "Error: '${jdk_name}' - unrecognized format, must be jdk-7/jdk-8 tarball (.gz)"
+ err_out "'${jdk_name}' - unrecognized format, must be jdk-7/jdk-8 tarball (.gz)"
 fi
 
 ver="${BASH_REMATCH[1]}"
@@ -22,7 +22,9 @@ minor_ver="${BASH_REMATCH[2]}"
 arch="${BASH_REMATCH[3]}"
 
 # Not yet supporting jdk-8
-[[ $ver -eq 8 ]] && err_out "Error: jdk-8 not yet supported"
+[[ $ver -eq 8 ]] && err_out "jdk-8 not yet supported"
+
+[[ ! $arch -eq 64 ]] && err_out "Currently only supports 64-bit jdk"
 
 cd $mydir
 
