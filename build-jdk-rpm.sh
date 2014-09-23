@@ -34,6 +34,9 @@ mkdir build
 tar -xzf $jdk_path -C build
 jdk_src_dir=$(ls build)
 
+# Compress man page files
+gzip build/$jdk_src_dir/man/man1/*.1
+
 # Build RPM
 [[ -d  "$mydir/pkg" ]] || mkdir pkg
 bundle exec fpm -s dir -t rpm --name oracle-jdk7 --version $minor_ver \
