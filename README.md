@@ -3,7 +3,7 @@
 **THIS REPO IS UNDER CONSTRUCTION**
 
 
-## Usage and Examples
+## Usage of Installed Package(s)
 
 Interactive alternative settings:
 ```
@@ -23,47 +23,25 @@ update-alternatives --set jre_1.7.0 /usr/lib/jvm/jdk1.7.0_67/jre
 update-alternatives --set java_sdk_1.7.0 /usr/lib/jvm/jdk1.7.0_67
 ```
 
-## Build examples
-Requirments:
+## Building a package
+### Requirements:
 
-* `rpmbuild` (on Ubuntu)
+* `rpmbuild` (`brew install rpm` on OSX or `apt-get install rpmbuild` on Ubuntu)
 * `ruby`
 * `fpm` gem
+* a pre-downloaded Oracle JDK tarball (e.g. `jdk-7u67-linux-x64.gz`)
 
-The following examples assumes you've downloaded `jdk-7u67` from Oracle's
-download site into the `cache` directory.
+***Note:*** The script assumes you're using bundler for ruby to install fpm: `bundle install fpm`
 
-Extract tarball:
+### Run the build script:
 ```
-$ tar -xzf jdk-7u67-linux-x64.tar.gz
-```
-
-For an RPM:
-```
-$ fpm -s dir -t rpm --name oracle-jdk7 --version 67 \
---template-scripts \
---after-install ./scripts/after-install.sh.erb \
---after-remove ./scripts/after-remove.sh.erb \
---prefix /usr/lib/jvm/jdk1.7.0_67 \
---directories /usr/lib/jvm/jdk1.7.0_67 \
---package ./pkg \
--C jdk1.7.0_67 .
-```
-
-For a deb (STILL TODO - may need own pre/post scripts):
-```
-$ fpm -s dir -t deb --name oracle-jdk7 --version 67 \
---template-scripts \
---after-install ./scripts/after-install.sh.erb \
---after-remove ./scripts/after-remove.sh.erb \
---prefix /usr/lib/jvm/jdk1.7.0_67 \
--C jdk1.7.0_67 .
+./build-jdk-rpm.sh /path/to/oracle_jdk_tarball
 ```
 
 TODO:
 
-* Get ubuntu/debian working
+* Get debs working
+* Support JDK 8
+* Support RPMs and DEBs other than 64-bit
 * More testing
-* Additional automation/scripting
-* Possibly consider fpm-cookery
 * Facilitate push to S3?
