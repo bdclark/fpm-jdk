@@ -17,8 +17,12 @@ Vagrant.configure("2") do |config|
     override.ssh.pty = true
   end
 
-  config.vm.define 'centos' do |centos|
-    centos.vm.box = 'baremettle/centos-6.5'
+  config.vm.define 'centos6.5' do |centos|
+    centos.vm.box = 'opscode-centos-6.5'
+  end
+
+  config.vm.define 'centos7' do |centos|
+    centos.vm.box = 'opscode-centos-7.0'
   end
 
   config.vm.define 'amazon', autostart: false do |amazon|
