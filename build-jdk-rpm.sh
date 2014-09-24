@@ -46,6 +46,7 @@ bundle exec fpm -s dir -t rpm --name oracle-jdk7 --version $minor_ver \
 --prefix /usr/lib/jvm/$jdk_src_dir \
 --directories /usr/lib/jvm/$jdk_src_dir \
 --package pkg \
+--rpm-os linux \
 -C build/$jdk_src_dir .
 
 rm -rf -- build
