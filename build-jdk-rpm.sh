@@ -7,14 +7,14 @@ jdk_path=$1
 [[ -f $jdk_path ]] || err_out "${jdk_path} does not exist"
 jdk_name=$(basename $jdk_path)
 
-regex='^jdk-([7-8])u([0-9]+)-linux-[x|i]([0-9]+).gz$'
+regex='^jdk-([7-8])u([0-9]+)-linux-[x|i]([0-9]+)(.tar)?.gz$'
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 script_dir=$mydir/scripts
 pkg_dir=$mydir/pkg
 
 if [[ ! $jdk_name =~ $regex ]]; then
- err_out "'${jdk_name}' - unrecognized format, must be jdk-7/jdk-8 tarball (.gz)"
+ err_out "'${jdk_name}' - unrecognized format, must be jdk-7/jdk-8 tarball (.gz or .tar.gz)"
 fi
 
 ver="${BASH_REMATCH[1]}"
