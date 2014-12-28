@@ -1,0 +1,108 @@
+#!/bin/sh
+
+JAVA_HOME=<%= prefix %>
+JRE_BIN=$JAVA_HOME/jre/bin
+JDK_BIN=$JAVA_HOME/bin
+MAN_DIR=/usr/share/man/man1
+JAVA_MAN=$JAVA_HOME/man/man1
+
+# openjdk uses version to determine priority, where 170065 is 1.7.0.65
+# we want this to have a higher priority so we're starting with 200000
+PRIORITY=<%= 200_000 + (version.split('.')[1].to_i) * 10_000 + version.split('.')[3].to_i %>
+
+mkdir -p /usr/lib/jvm /usr/lib/jvm-exports
+
+update-alternatives --install /usr/bin/java java $JRE_BIN/java $PRIORITY \
+--slave /usr/lib/jvm/jre         jre           $JAVA_HOME/jre \
+--slave /usr/lib/jvm-exports/jre jre_exports   $JAVA_HOME/jre/lib \
+--slave /usr/bin/keytool         keytool       $JRE_BIN/keytool \
+--slave /usr/bin/orbd            orbd          $JRE_BIN/orbd \
+--slave /usr/bin/pack200         pack200       $JRE_BIN/pack200 \
+--slave /usr/bin/policytool      policytool    $JRE_BIN/policytool \
+--slave /usr/bin/rmid            rmid          $JRE_BIN/rmid \
+--slave /usr/bin/rmiregistry     rmiregistry   $JRE_BIN/rmiregistry \
+--slave /usr/bin/servertool      servertool    $JRE_BIN/servertool \
+--slave /usr/bin/tnameserv       tnameserv     $JRE_BIN/tnameserv \
+--slave /usr/bin/unpack200       unpack200     $JRE_BIN/unpack200 \
+--slave $MAN_DIR/java.1.gz          java.1.gz        $JAVA_MAN/java.1.gz \
+--slave $MAN_DIR/keytool.1.gz       keytool.1.gz     $JAVA_MAN/keytool.1.gz \
+--slave $MAN_DIR/orbd.1.gz          orbd.1.gz        $JAVA_MAN/orbd.1.gz \
+--slave $MAN_DIR/pack200.1.gz       pack200.1.gz     $JAVA_MAN/pack200.1.gz \
+--slave $MAN_DIR/policytool.1.gz    policytool.1.gz  $JAVA_MAN/policytool.1.gz \
+--slave $MAN_DIR/rmid.1.gz          rmid.1.gz        $JAVA_MAN/rmid.1.gz \
+--slave $MAN_DIR/rmiregistry.1.gz   rmiregistry.1.gz $JAVA_MAN/rmiregistry.1.gz \
+--slave $MAN_DIR/servertool.1.gz    servertool.1.gz  $JAVA_MAN/servertool.1.gz \
+--slave $MAN_DIR/tnameserv.1.gz     tnameserv.1.gz   $JAVA_MAN/tnameserv.1.gz \
+--slave $MAN_DIR/unpack200.1.gz     unpack200.1.gz   $JAVA_MAN/unpack200.1.gz
+
+update-alternatives --install \
+  /usr/lib/jvm/jre-1.7.0 jre_1.7.0 $JAVA_HOME/jre $PRIORITY \
+  --slave /usr/lib/jvm-exports/jre-1.7.0 jre_1.7.0_exports $JAVA_HOME/jre/lib
+
+update-alternatives --install /usr/bin/javac javac $JDK_BIN/javac $PRIORITY \
+--slave /usr/lib/jvm/java         java_sdk          $JAVA_HOME \
+--slave /usr/lib/jvm-exports/java java_sdk_exports  $JAVA_HOME/lib \
+--slave /usr/bin/appletviewer     appletviewer      $JDK_BIN/appletviewer \
+--slave /usr/bin/apt              apt               $JDK_BIN/apt \
+--slave /usr/bin/extcheck         extcheck          $JDK_BIN/extcheck \
+--slave /usr/bin/idlj             idlj              $JDK_BIN/idlj \
+--slave /usr/bin/jar              jar               $JDK_BIN/jar \
+--slave /usr/bin/jarsigner        jarsigner         $JDK_BIN/jarsigner \
+--slave /usr/bin/javadoc          javadoc           $JDK_BIN/javadoc \
+--slave /usr/bin/javah            javah             $JDK_BIN/javah \
+--slave /usr/bin/javap            javap             $JDK_BIN/javap \
+--slave /usr/bin/javaws           javaws            $JDK_BIN/javaws \
+--slave /usr/bin/jcmd             jcmd              $JDK_BIN/jcmd \
+--slave /usr/bin/jconsole         jconsole          $JDK_BIN/jconsole \
+--slave /usr/bin/jdb              jdb               $JDK_BIN/jdb \
+--slave /usr/bin/jhat             jhat              $JDK_BIN/jhat \
+--slave /usr/bin/jinfo            jinfo             $JDK_BIN/jinfo \
+--slave /usr/bin/jmap             jmap              $JDK_BIN/jmap \
+--slave /usr/bin/jps              jps               $JDK_BIN/jps \
+--slave /usr/bin/jrunscript       jrunscript        $JDK_BIN/jrunscript \
+--slave /usr/bin/jsadebugd        jsadebugd         $JDK_BIN/jsadebugd \
+--slave /usr/bin/jstack           jstack            $JDK_BIN/jstack \
+--slave /usr/bin/jstat            jstat             $JDK_BIN/jstat \
+--slave /usr/bin/jstatd           jstatd            $JDK_BIN/jstatd \
+--slave /usr/bin/native2ascii     native2ascii      $JDK_BIN/native2ascii \
+--slave /usr/bin/rmic             rmic              $JDK_BIN/rmic \
+--slave /usr/bin/schemagen        schemagen         $JDK_BIN/schemagen \
+--slave /usr/bin/serialver        serialver         $JDK_BIN/serialver \
+--slave /usr/bin/wsgen            wsgen             $JDK_BIN/wsgen \
+--slave /usr/bin/wsimport         wsimport          $JDK_BIN/wsimport \
+--slave /usr/bin/xjc              xjc               $JDK_BIN/xjc \
+--slave $MAN_DIR/appletviewer.1.gz   appletviewer.1.gz    $JAVA_MAN/appletviewer.1.gz \
+--slave $MAN_DIR/apt.1.gz            apt.1.gz             $JAVA_MAN/apt.1.gz \
+--slave $MAN_DIR/extcheck.1.gz       extcheck.1.gz        $JAVA_MAN/extcheck.1.gz \
+--slave $MAN_DIR/jar.1.gz            jar.1.gz             $JAVA_MAN/jar.1.gz \
+--slave $MAN_DIR/jarsigner.1.gz      jarsigner.1.gz       $JAVA_MAN/jarsigner.1.gz \
+--slave $MAN_DIR/javac.1.gz          javac.1.gz           $JAVA_MAN/javac.1.gz \
+--slave $MAN_DIR/javadoc.1.gz        javadoc.1.gz         $JAVA_MAN/javadoc.1.gz \
+--slave $MAN_DIR/javah.1.gz          javah.1.gz           $JAVA_MAN/javah.1.gz \
+--slave $MAN_DIR/javap.1.gz          javap.1.gz           $JAVA_MAN/javap.1.gz \
+--slave $MAN_DIR/javaws.1.gz         javaws.1.gz          $JAVA_MAN/javaws.1.gz \
+--slave $MAN_DIR/jcmd.1.gz           jcmd.1.gz            $JAVA_MAN/jcmd.1.gz \
+--slave $MAN_DIR/jconsole.1.gz       jconsole.1.gz        $JAVA_MAN/jconsole.1.gz \
+--slave $MAN_DIR/jdb.1.gz            jdb.1.gz             $JAVA_MAN/jdb.1.gz \
+--slave $MAN_DIR/jhat.1.gz           jhat.1.gz            $JAVA_MAN/jhat.1.gz \
+--slave $MAN_DIR/jinfo.1.gz          jinfo.1.gz           $JAVA_MAN/jinfo.1.gz \
+--slave $MAN_DIR/jmap.1.gz           jmap.1.gz            $JAVA_MAN/jmap.1.gz \
+--slave $MAN_DIR/jps.1.gz            jps.1.gz             $JAVA_MAN/jps.1.gz \
+--slave $MAN_DIR/jrunscript.1.gz     jrunscript.1.gz      $JAVA_MAN/jrunscript.1.gz \
+--slave $MAN_DIR/jsadebugd.1.gz      jsadebugd.1.gz       $JAVA_MAN/jsadebugd.1.gz \
+--slave $MAN_DIR/jstack.1.gz         jstack.1.gz          $JAVA_MAN/jstack.1.gz \
+--slave $MAN_DIR/jstat.1.gz          jstat.1.gz           $JAVA_MAN/jstat.1.gz \
+--slave $MAN_DIR/jstatd.1.gz         jstatd.1.gz          $JAVA_MAN/jstatd.1.gz \
+--slave $MAN_DIR/native2ascii.1.gz   native2ascii.1.gz    $JAVA_MAN/native2ascii.1.gz \
+--slave $MAN_DIR/rmic.1.gz           rmic.1.gz            $JAVA_MAN/rmic.1.gz \
+--slave $MAN_DIR/schemagen.1.gz      schemagen.1.gz       $JAVA_MAN/schemagen.1.gz \
+--slave $MAN_DIR/serialver.1.gz      serialver.1.gz       $JAVA_MAN/serialver.1.gz \
+--slave $MAN_DIR/wsgen.1.gz          wsgen.1.gz           $JAVA_MAN/wsgen.1.gz \
+--slave $MAN_DIR/wsimport.1.gz       wsimport.1.gz        $JAVA_MAN/wsimport.1.gz \
+--slave $MAN_DIR/xjc.1.gz            xjc.1.gz             $JAVA_MAN/xjc.1.gz
+
+update-alternatives --install \
+  /usr/lib/jvm/java-1.7.0 java_sdk_1.7.0 $JAVA_HOME $PRIORITY \
+  --slave /usr/lib/jvm-exports/java-1.7.0 java_sdk_1.7.0_exports $JAVA_HOME/lib
+
+exit 0

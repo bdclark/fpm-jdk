@@ -1,0 +1,10 @@
+#!/bin/sh
+
+JAVA_HOME=<%= prefix %>
+
+alternatives --remove java $JAVA_HOME/jre/bin/java
+alternatives --remove javac $JAVA_HOME/bin/javac
+alternatives --remove jre_1.8.0 $JAVA_HOME/jre
+alternatives --remove java_sdk_1.8.0 $JAVA_HOME
+
+exit 0
